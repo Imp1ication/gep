@@ -6,12 +6,12 @@ public class Individual implements Cloneable {
 
     public Individual() {
         this.gene = new Gene();
-        this.fitness = 0;
+        this.fitness = -1;
     }
 
     public Individual(Gene gene) {
         this.gene = gene;
-        this.fitness = 0;
+        this.fitness = -1;
     }
 
     /* Setters and getters */

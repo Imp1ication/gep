@@ -1,13 +1,22 @@
 package gep;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class Population implements Cloneable {
     private int generation;
     private Individual[] indivs = new Individual[Param.POP_SIZE];
 
-    public Population() { this.generation = 0; }
+    public Population() {
+        this.generation = 0;
+    }
 
     /* Setters and getters */
-    public int getGeneration() { return generation; }
+    public int getGeneration() {
+        return generation;
+    }
 
     /* Evolve methods */
     public void initialize() {
@@ -20,9 +29,13 @@ public class Population implements Cloneable {
         }
 
         generation += 1;
+
+        writeLog(Param.GEP_LOG_FILE_PATH, false);
     }
 
     public void evolve() {
+        System.out.println("\nGeneration " + generation + " evolve...");
+
         // crossover
         Individual[] children = Param.CROSSOVER.crossover(this.indivs, Param.POP_SIZE);
 
@@ -31,14 +44,16 @@ public class Population implements Cloneable {
             double prob = Math.random();
             if (prob < Param.MUTATION_RATE) {
                 // random choose mutator
-                int mutatorIndex = (int)(Math.random() * Param.MUTATOR.length);
+                int mutatorIndex = (int) (Math.random() * Param.MUTATOR.length);
                 children[i] = Param.MUTATOR[mutatorIndex].mutate(children[i]);
             }
         }
-            
+
         // evaluate children
+        System.out.println("\nEvaluate children:");
         for (int i = 0; i < children.length; i++) {
             children[i].setFitness(Param.EVALUATOR.evaluate(children[i]));
+            System.out.println((i+1) + "/" + children.length + " " + children[i].getFitness());
         }
 
         // selection
@@ -49,20 +64,60 @@ public class Population implements Cloneable {
         Individual[] newPop = Param.SELECTOR.select(indivsPool, Param.POP_SIZE, Param.ELITISM_RATE);
 
         // evaluate new population
-        System.out.println("Evaluate new population:");
+        System.out.println("\nEvaluate new population:");
         for (int i = 0; i < newPop.length; i++) {
             newPop[i].setFitness(Param.EVALUATOR.evaluate(newPop[i]));
-            System.out.println( i + "/" + newPop.length + " " + newPop[i].getFitness());
+            System.out.println((i+1) + "/" + newPop.length + " " + newPop[i].getFitness());
         }
 
         // update population
         this.indivs = newPop;
         generation += 1;
+
+        writeLog(Param.GEP_LOG_FILE_PATH, true);
+    }
+
+    private void writeLog(String fileName, Boolean append) {
+        File file = new File(fileName);
+
+        try{
+            if( !file.exists() ){
+                    file.createNewFile();
+            }
+
+            FileWriter fw = new FileWriter(file.getAbsoluteFile(), append);
+            BufferedWriter bw = new BufferedWriter(fw);
+
+            String msg = "";
+
+            if(append == false){
+                msg += "DC: ";
+
+                for(int i=0; i<Param.DC_LEN; ++i){
+                    msg += Double.toString(Param.DC_ARRAY[i]);
+                    if(i != Param.DC_LEN-1){ msg += " "; }
+                }
+                
+                msg += "\n\n";
+            }
+
+            for(int i=0; i<indivs.length; ++i){
+                msg += indivs[i].getFitness() + " ";
+                msg += indivs[i].toString() + "\n";
+            }
+
+            bw.write(msg + "\n");
+
+            bw.close();
+            fw.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     protected Population clone() throws CloneNotSupportedException {
-        Population pop = (Population)super.clone();
+        Population pop = (Population) super.clone();
         pop.indivs = this.indivs.clone();
         for (int i = 0; i < Param.POP_SIZE; i++) {
             pop.indivs[i] = this.indivs[i].clone();
@@ -70,33 +125,35 @@ public class Population implements Cloneable {
         return pop;
     }
 
-	public static void main(String[] args) {
-        
-
+    public static void main(String[] args) {
 
         Population pop = new Population();
         pop.initialize();
 
-        for (int i = 0; i < 10; i++) {
-            System.out.println("Generation: " + pop.getGeneration());
-            for (int j = 0; j < Param.POP_SIZE; j++) {
-                System.out.println(pop.indivs[j] + " " + pop.indivs[j].getFitness());
-            }
-            System.out.println();
-            pop.evolve();
-        }
-            
+        pop.evolve();
+        pop.evolve();
+        pop.evolve();
+
+        // for (int i = 0; i < 10; i++) {
+        //     System.out.println("Generation: " + pop.getGeneration());
+        //     for (int j = 0; j < Param.POP_SIZE; j++) {
+        //         System.out.println(pop.indivs[j] + " " + pop.indivs[j].getFitness());
+        //     }
+        //     System.out.println();
+        //     pop.evolve();
+        // }
+
         // Population pop = new Population();
         // pop.initialize();
         // System.out.println("Generation: " + pop.getGeneration());
         // for (int i = 0; i < Param.POP_SIZE; i++) {
-        //     System.out.println(pop.indivs[i] + " " + pop.indivs[i].getFitness());
+        // System.out.println(pop.indivs[i] + " " + pop.indivs[i].getFitness());
         // }
         //
         // //print dc
         // System.out.println("DC:");
         // for (int i = 0; i < Param.DC_LEN; i++) {
-        //     System.out.println(Param.DC_ARRAY[i]);
+        // System.out.println(Param.DC_ARRAY[i]);
         // }
-	}
+    }
 }

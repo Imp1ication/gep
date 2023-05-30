@@ -86,12 +86,18 @@ class BossWinScoreEvaluator implements Evaluator {
             winScoreCal /= 440;
             winScoreCal = (winner == 0) ? winScoreCal : winScoreCal * -1;
 
-            System.out.println("  Fight " + (i + 1) + "/" + Param.FIGHT_NUM + ":\t" + winScoreCal);
+            System.out.println("Fight " + (i + 1) + "/" + Param.FIGHT_NUM + ":\t" + winScoreCal);
             score += winScoreCal;
         }
 
         // calculate fitness
-        double fitness = (score + indiv.getFitness()) / (Param.FIGHT_NUM + 1);
+        double fitness;
+        if(indiv.getFitness() == -1) {
+            fitness = score / Param.FIGHT_NUM;
+        } else {
+            fitness = (score + indiv.getFitness()) / (Param.FIGHT_NUM + 1);
+        }
+
         fitness = Math.round(fitness * 1000.0) / 1000.0;
 
         return fitness;

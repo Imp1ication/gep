@@ -9,10 +9,11 @@ import java.util.HashMap;
 public class Param {
     /* File Path */
     // NOTE: change file path
-    public static final String BOSS_FILE_PATH = "bot/jerry_agent.cpp";
+    public static final String BOSS_FILE_PATH = "bot/morris_agent.cpp";
     public static final String PLAYER_FILE_PATH = "bot/jerry_agent.cpp";
     public static final String CHROMOSOME_FILE_PATH = "src/test/java/gep/chromosome.txt";
     public static final String GEP_FILE_PATH = "src/test/java/gep/gep_param.txt";
+    public static final String GEP_LOG_FILE_PATH = "gep/log.txt";
 
     public static String BOSS_AGENT, PLAYER_AGENT;
     static {
