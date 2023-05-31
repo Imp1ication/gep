@@ -49,7 +49,7 @@ class RouletteDoublePointCrossover implements Crossover {
 			} catch (CloneNotSupportedException e) {
 				e.printStackTrace();
 			}
-            children[i].setFitness(0);
+            children[i].setFitness(-1);
 
             // Randomly select crossover point
             int crossoverPoint1 = 0;

@@ -42,7 +42,7 @@ class RandomTransposMutator implements Mutator {
             e.printStackTrace();
         }
 
-        newIndiv.setFitness(0);
+        newIndiv.setFitness(-1);
 
         String fragment = newIndiv.getGeneFragment(tpPoint, tpPoint + tpLen);
         newIndiv.setGeneFragment(replacePoint, replacePoint + tpLen, fragment);
@@ -68,7 +68,7 @@ class RandomInverseMutator implements Mutator {
             e.printStackTrace();
         }
 
-        newIndiv.setFitness(0);
+        newIndiv.setFitness(-1);
         String fragment = newIndiv.getGeneFragment(start, end);
         newIndiv.setGeneFragment(start, end, new StringBuilder(fragment).reverse().toString());
 

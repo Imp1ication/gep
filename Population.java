@@ -34,7 +34,7 @@ public class Population implements Cloneable {
     }
 
     public void evolve() {
-        System.out.println("\nGeneration " + generation + " evolve...");
+        System.out.println("Generation " + generation + " evolve...");
 
         // crossover
         Individual[] children = Param.CROSSOVER.crossover(this.indivs, Param.POP_SIZE);
@@ -50,10 +50,11 @@ public class Population implements Cloneable {
         }
 
         // evaluate children
-        System.out.println("\nEvaluate children:");
+        System.out.println("Evaluate children:");
         for (int i = 0; i < children.length; i++) {
             children[i].setFitness(Param.EVALUATOR.evaluate(children[i]));
             System.out.println((i+1) + "/" + children.length + " " + children[i].getFitness());
+            System.out.println();
         }
 
         // selection
@@ -64,10 +65,11 @@ public class Population implements Cloneable {
         Individual[] newPop = Param.SELECTOR.select(indivsPool, Param.POP_SIZE, Param.ELITISM_RATE);
 
         // evaluate new population
-        System.out.println("\nEvaluate new population:");
+        System.out.println("Evaluate new population:");
         for (int i = 0; i < newPop.length; i++) {
             newPop[i].setFitness(Param.EVALUATOR.evaluate(newPop[i]));
             System.out.println((i+1) + "/" + newPop.length + " " + newPop[i].getFitness());
+            System.out.println();
         }
 
         // update population
@@ -130,9 +132,30 @@ public class Population implements Cloneable {
         Population pop = new Population();
         pop.initialize();
 
-        pop.evolve();
-        pop.evolve();
-        pop.evolve();
+        // print population
+        System.out.println("==============================");
+        System.out.println("Generation: " + (pop.getGeneration()-1));
+        for (int j = 0; j < Param.POP_SIZE; j++) {
+            System.out.println(pop.indivs[j].getFitness() + " " + pop.indivs[j]);
+        }
+        System.out.println("==============================");
+        System.out.println();
+
+        for (int i=0; i < Param.MAX_GENERATION; ++i) {
+            pop.evolve();
+            
+            // print population
+            System.out.println("==============================");
+            System.out.println("Generation: " + (pop.getGeneration()-1));
+            for (int j = 0; j < Param.POP_SIZE; j++) {
+                System.out.println(pop.indivs[j].getFitness() + " " + pop.indivs[j]);
+            }
+            System.out.println("==============================");
+            System.out.println();
+        }
+
+        System.out.println("Done!");
+            
 
         // for (int i = 0; i < 10; i++) {
         //     System.out.println("Generation: " + pop.getGeneration());

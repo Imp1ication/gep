@@ -10,7 +10,7 @@ public class Param {
     /* File Path */
     // NOTE: change file path
     public static final String BOSS_FILE_PATH = "bot/morris_agent.cpp";
-    public static final String PLAYER_FILE_PATH = "bot/jerry_agent.cpp";
+    public static final String PLAYER_FILE_PATH = "gep/bot/main.cpp"; // "bot/jerry_agent.cpp"
     public static final String CHROMOSOME_FILE_PATH = "src/test/java/gep/chromosome.txt";
     public static final String GEP_FILE_PATH = "src/test/java/gep/gep_param.txt";
     public static final String GEP_LOG_FILE_PATH = "gep/log.txt";
@@ -74,7 +74,7 @@ public class Param {
     /* Dc */
     public static final int DC_LEN = 10;
     public static final double DC_MAX_VALUE = 10.0;
-    public static final double DC_MIN_VALUE = 1.0;
+    public static final double DC_MIN_VALUE = 0.0;
     public static final double[] DC_ARRAY = new double[DC_LEN];
     
     static {
@@ -86,8 +86,8 @@ public class Param {
     }
 
     /* Population */
-    public static final int POP_SIZE = 10;
-    public static final int MAX_GENERATION = 10;
+    public static final int POP_SIZE = 5;
+    public static final int MAX_GENERATION = 5;
 
     public static final Crossover CROSSOVER = new RouletteDoublePointCrossover();
     public static final Mutator MUTATOR[] = {
@@ -100,10 +100,10 @@ public class Param {
 
     /* Modify Rate */
     public static final double ELITISM_RATE = 0.3;
-    public static final double MUTATION_RATE = 1;
+    public static final double MUTATION_RATE = 0.1;
 
     /* Evaluate Fitness Setting */
-    public static final int FIGHT_NUM = 1;
+    public static final int FIGHT_NUM = 5;
     public static final long GAME_SEED = 53295539L;
     public static final boolean IS_GAME_RANDOM = false;
 
