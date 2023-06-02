@@ -8,10 +8,12 @@ class RouletteDoublePointCrossover implements Crossover {
     public Individual[] crossover(Individual[] indivs, int childNum) {
         // Calculate relative fitness
         double totalFitness = 0;
+        double[] ragularizedFitness = new double[indivs.length];
         double[] relativeFitness = new double[indivs.length];
 
-        for(int i=0; i<indivs.length; ++i) totalFitness += indivs[i].getFitness();
-        for(int i=0; i<indivs.length; ++i) relativeFitness[i] = indivs[i].getFitness() / totalFitness;
+        for(int i=0; i<indivs.length; ++i) ragularizedFitness[i] = indivs[i].getFitness() + 1;
+        for(int i=0; i<indivs.length; ++i) totalFitness += ragularizedFitness[i]; 
+        for(int i=0; i<indivs.length; ++i) relativeFitness[i] = ragularizedFitness[i] / totalFitness;
 
         // Create Roulette
         double[] wheel = new double[indivs.length];
