@@ -1,5 +1,7 @@
 package gep;
 
+import java.util.Random;
+
 public interface Crossover {
     public Individual[] crossover(Individual[] indivs, int childNum);
 }
@@ -54,16 +56,12 @@ class RouletteDoublePointCrossover implements Crossover {
             children[i].setFitness(-1);
 
             // Randomly select crossover point
-            int crossoverPoint1 = 0;
-            int crossoverPoint2 = 0;
-
-            while(crossoverPoint1 == crossoverPoint2) {
-                crossoverPoint1 = (int)(Math.random() * Param.GENE_LEN);
-                crossoverPoint2 = (int)(Math.random() * (Param.GENE_LEN - crossoverPoint1)) + crossoverPoint1;
-            }
+            Random random = new Random();
+            int cp1 = random.nextInt(children[i].getGeneExpLenth()) + 1; // 1 ~ geneExpLenth
+            int cp2 = random.nextInt(Param.GENE_LEN - cp1 + 1) + cp1;    // cp1 ~ geneLen
 
             // Swap genes
-            children[i].setGeneFragment(crossoverPoint1, crossoverPoint2, parent2.getGeneFragment(crossoverPoint1, crossoverPoint2));
+            children[i].setGeneFragment(cp1, cp2, parent2.getGeneFragment(cp1, cp2));
         }
 
         return children;
