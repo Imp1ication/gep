@@ -7,7 +7,7 @@ public interface Mutator {
 class SimpleRandomMutator implements Mutator {
     public Individual mutate(Individual indiv) {
         // random point
-        int mutatePoint = (int) (Math.random() * Param.GENE_LEN);
+        int mutatePoint = (int) (Math.random() * indiv.getGeneExpLenth());
 
         String newElement = "";
         if (mutatePoint == 0) {
@@ -29,7 +29,7 @@ class SimpleRandomMutator implements Mutator {
 
 class RandomTransposMutator implements Mutator {
     public Individual mutate(Individual indiv) {
-        // radom transpos start point, endpoint, and replace point
+        // radom transpos length, start point, and replace point
         int tpLen = (int) (Math.random() * Param.HEAD_LEN);
         int tpPoint = (int) (Math.random() * (Param.HEAD_LEN + Param.TAIL_LEN - tpLen));
         int replacePoint = (int) (Math.random() * (Param.HEAD_LEN - tpLen - 1)) + 1;
