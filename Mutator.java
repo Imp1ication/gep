@@ -22,6 +22,7 @@ class SimpleRandomMutator implements Mutator {
 
         // mutate
         indiv.setGeneFragment(mutatePoint, mutatePoint + 1, newElement);
+        indiv.setFitness(-1);
 
         return indiv;
     }
