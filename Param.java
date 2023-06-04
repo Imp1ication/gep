@@ -108,6 +108,10 @@ public class Param {
     public static final boolean IS_GAME_RANDOM = false;
 
     /* Public methods */
+    public static final int getTermNeed(Character func) {
+        return FUNC.containsKey(func) ? FUNC.get(func) : 0;
+    }
+
     public static final char getRandomFunc() {
         int index = (int)(Math.random() * FUNC.size());
         return (char)FUNC.keySet().toArray()[index];

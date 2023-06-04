@@ -40,7 +40,21 @@ public class Gene implements Cloneable{
         }
     }
         
+    public int getExpLenth() {
+        int termNeed = Param.getTermNeed(this.text.charAt(0));
+        int expLen = 1;
 
+        for (; expLen < text.length(); ++expLen) {
+            termNeed += Param.getTermNeed(this.text.charAt(expLen));
+            termNeed -= 1;
+
+            if (termNeed == 0) {
+                break;
+            }
+        }
+            
+        return expLen + 1;
+    }
 
     /* Private methods */
 

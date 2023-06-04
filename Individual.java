@@ -25,6 +25,8 @@ public class Individual implements Cloneable {
         return this.gene.setFragment(start, end, fragment);
     }
 
+    public int getGeneExpLenth() { return this.gene.getExpLenth(); }
+
 
     @Override
     public String toString() { return this.gene.toString(); }
