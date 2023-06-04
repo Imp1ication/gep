@@ -1,5 +1,7 @@
 package gep;
 
+import java.util.Random;
+
 public interface Mutator {
     public Individual mutate(Individual indiv);
 }
@@ -7,7 +9,10 @@ public interface Mutator {
 class SimpleRandomMutator implements Mutator {
     public Individual mutate(Individual indiv) {
         // random point
-        int mutatePoint = (int) (Math.random() * indiv.getGeneExpLenth());
+        Random random = new Random();
+        int rp1 = random.nextInt(indiv.getGeneExpLenth());
+        int rp2 = random.nextInt(Param.TAIL_LEN);
+        int mutatePoint = random.nextBoolean() ? rp1 : (rp2 + Param.HEAD_LEN + Param.TAIL_LEN);
 
         String newElement = "";
         if (mutatePoint == 0) {
